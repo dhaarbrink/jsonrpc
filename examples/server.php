@@ -15,6 +15,10 @@
             $ret->foo = array('bar' => 'baz');
             return $ret;
         }
+        public function testfunc2()
+        {
+        	return 42;
+        }
     }
 
     $server = new \JsonRpc\RpcServer();

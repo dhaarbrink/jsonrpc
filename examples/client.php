@@ -11,4 +11,10 @@
     $client = new JsonRpc\RpcClient($url);
 
     $result = $client->testfunc();
-    var_dump($result);
+    var_dump($result, $client->getResponseRaw());
+    
+    $result = $client->batch()
+    	->testfunc()
+    	->testfunc2()
+    	->send();
+	var_dump($result, $client->getResponseRaw());

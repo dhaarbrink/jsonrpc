@@ -28,6 +28,8 @@ class RpcClient
     protected $message_id = 1;
     protected $last_request;
     protected $response_raw;
+    protected $batch = false;
+    protected $message;
     public function __construct($url)
     {
         $this->url = $url;
@@ -35,13 +37,44 @@ class RpcClient
     public function __call($method, $arguments)
     {
         $message = $this->createMessage($method, $arguments);
-        $this->last_request = $message;
+
+        if ($this->batch) {
+        	$this->message[] = $message;
+        } else {
+        	$this->message = $message;
+        }
+        
+		if (!$this->batch) {
+			//dirty trick to use send outside of batch mode
+			$this->batch = true;
+			$result = $this->send();
+			$this->batch = false;
+			
+			return $result;
+		}
+		
+		//we're in batch mode, return $this so we can chain
+		return $this;
+    }
+    public function batch()
+    {
+    	$this->batch = true;
+    	$this->message = array();
+    	return $this;
+    }
+    public function send()
+    {
+    	if (!$this->batch) {
+    		throw new Exception("Can't use send outside of batch mode");
+    	}
+    	
+        $this->last_request = $this->message;
 
         $opts = array('http' =>
             array(
                 'method'  => 'POST',
                 'header'  => 'Content-type: application/x-www-form-urlencoded',
-                'content' => json_encode($message)
+                'content' => json_encode($this->message)
             )
         );
 
