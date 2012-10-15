@@ -51,7 +51,8 @@ class RpcServer
                 $response->add($worker->handle($message), $message->id);
             }
         } catch (\Exception $e) {
-            $response->add($e, $message->id);
+            $mid = (isset($message) && isset($message->id)) ? $message->id : null;
+            $response->add($e, $mid);
         }
 
         $response->setBatch($request->isBatch());

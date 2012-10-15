@@ -43,10 +43,7 @@ class Worker
             throw new Exception\MethodNotFoundException();
         }
 
-
-//        return call_user_func_array($this->map[$method], $params);
-        $f = $this->map['func1'];
-        return $this->service->func1();
+        return call_user_func_array($this->map[$method], $params);
     }
     protected function createCallMap()
     {

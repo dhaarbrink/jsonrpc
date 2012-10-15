@@ -30,7 +30,8 @@ extends Exception
     protected $default_message = "Parse error";
     public function __construct($message = "", $code = 0, Exception $previous = null)
     {
-        $message = (!empty($message)) ? $message : $this->default_message;
-        parent::__construct($message, -32700);
+//        $message = (!empty($message)) ? $message : $this->default_message;
+        parent::__construct('aap', -32700);
+//        parent::__construct($message, -32700);
     }
 }
