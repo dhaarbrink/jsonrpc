@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Thrown when incorrect parameters are passed
+ *
+ */
 class InvalidParamsException
 extends Exception
 {

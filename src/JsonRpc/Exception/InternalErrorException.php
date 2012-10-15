@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Exception used for internal errors
+ *
+ */
 class InternalErrorException
 extends Exception
 {

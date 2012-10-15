@@ -22,7 +22,19 @@
  */
 namespace JsonRpc\Transport;
 
+use JsonRpc\Response;
+
+/**
+ * 
+ * Interface describing the Output device
+ *
+ */
 interface Output
 {
-
+	/**
+	 * 
+	 * Writes the output
+	 * @param Response $response
+	 */
+	public function out(Response $response);
 }

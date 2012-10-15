@@ -22,11 +22,12 @@
  */
 namespace JsonRpc;
 
+/**
+ * 
+ * Base exception class where all others inherit from
+ *
+ */
 class Exception
 extends \Exception
 {
-    public function getData()
-    {
-
-    }
 }

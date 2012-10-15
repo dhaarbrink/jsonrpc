@@ -24,9 +24,20 @@ namespace JsonRpc\Transport;
 
 use JsonRpc\Response;
 
+/**
+ * 
+ * Output implementation, writes to STDOUT
+ *
+ */
 class BasicOutput
 implements Output
 {
+	/**
+	 * Writes to STDOUT
+	 * @param Response current response object
+	 * @return void
+	 * @see JsonRpc\Transport.Output::out()
+	 */
     public function out(Response $response)
     {
         echo json_encode($response->getResponse());

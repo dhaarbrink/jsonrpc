@@ -22,18 +22,48 @@
  */
 namespace JsonRpc;
 
+/**
+ * Client implementation
+ *
+ */
 class RpcClient
 {
+	/**
+	 * @var string server url
+	 */
     protected $url;
+    /**
+     * @var integer id for next message
+     */
     protected $message_id = 1;
+    /**
+     * @var string last request
+     */
     protected $last_request;
+    /**
+     * @var string stores the raw response text
+     */
     protected $response_raw;
+    /**
+     * @var boolean whether we are in batch mode
+     */
     protected $batch = false;
+    /**
+     * @var mixed holds the outgoing message(s)
+     */
     protected $message;
+    /**
+     * @param string $url
+     */
     public function __construct($url)
     {
         $this->url = $url;
     }
+    /**
+     * Proxy to the registered server methods
+     * @param string $method
+     * @param array $arguments
+     */
     public function __call($method, $arguments)
     {
         $message = $this->createMessage($method, $arguments);
@@ -56,12 +86,19 @@ class RpcClient
 		//we're in batch mode, return $this so we can chain
 		return $this;
     }
+    /**
+     * Tells the client to go batch mode
+     */
     public function batch()
     {
     	$this->batch = true;
     	$this->message = array();
     	return $this;
     }
+    /**
+     * Constructs and sends the payload and returns the server response
+     * @return mixed 
+     */
     public function send()
     {
     	if (!$this->batch) {
@@ -86,14 +123,28 @@ class RpcClient
         $this->response_raw = $response;
         return json_decode($response);
     }
+    /**
+     * Returns the last request
+     * @return string
+     */
     public function getLastRequest()
     {
         return $this->last_request;
     }
+    /**
+     * Returns the raw server response
+     * @return string
+     */
     public function getResponseRaw()
     {
         return $this->response_raw;
     }
+    /**
+     * Creates a message
+     * @param string $method
+     * @param array $arguments
+     * @return array
+     */
     protected function createMessage($method, $arguments)
     {
         return array(
@@ -103,6 +154,10 @@ class RpcClient
             'id' => $this->getMessageId(),
         );
     }
+    /**
+     * Returns incrementing message id
+     * @return integer
+     */
     protected function getMessageId()
     {
         return $this->message_id++;

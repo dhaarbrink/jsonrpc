@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Used for implementation defined errors
+ *
+ */
 class ServerErrorException
 extends Exception
 {

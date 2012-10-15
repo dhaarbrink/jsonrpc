@@ -24,14 +24,43 @@ namespace JsonRpc;
 
 use JsonRpc\Transport;
 
+/**
+ * 
+ * Base server implementation
+ *
+ */
 class RpcServer
 {
+	/**
+	 * @var string incoming payload
+	 */
     protected $payload;
+    /**
+     * @var Transport\Input input interface
+     */
     protected $input;
+    /**
+     * @var Transport\Output output interface
+     */
     protected $output;
+    /**
+     * @var mixed original error handler
+     */
     protected $error_handler;
+    /**
+     * @var object service class
+     */
     protected $service;
+    /**
+     * @var array list of service methods
+     */
     protected $functions = array();
+    /**
+     * The beef of the server
+     * @param string $payload
+     * @param Transport\Input $input
+     * @param Transport\Output $output
+     */
     public function handle($payload = null, Transport\Input $input = null, Transport\Output $output = null)
     {
         $this->setupErrorHandler();
@@ -60,27 +89,51 @@ class RpcServer
 
         $this->restoreErrorHandler();
     }
+    /**
+     * Sets the class to get server methods from
+     * @param string $class
+     */
     public function setClass($class)
     {
         $this->service = new $class();
     }
+    /**
+     * Sets an object to get server methods from
+     * @param object $obj
+     */
     public function setObject($obj)
     {
         $this->service = $obj;
     }
+    /**
+     * Adds a single method
+     * @param \Callable $function
+     */
     public function addFunction($function)
     {
         $this->functions[] = $function;
     }
+    /**
+     * sets up the error handler
+     */
     public function setupErrorHandler()
     {
         $this->error_handler = set_error_handler(array($this, 'error_handler'));
     }
+    /**
+     * Restores the original error handler
+     */
     public function restoreErrorHandler()
     {
         restore_error_handler($this->error_handler);
     }
-    public function error_handler($errno, $errstr, $errfile, $errline, array $errcontext)
+    /**
+     * The actual error handler, converts errors to exceptions
+     * @param integer $errno
+     * @param string $errstr
+     * @throws Exception\ServerErrorException
+     */
+    public function error_handler($errno, $errstr /*, $errfile, $errline, array $errcontext */)
     {
         throw new Exception\ServerErrorException($errstr, $errno);
     }

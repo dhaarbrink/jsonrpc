@@ -1,12 +1,13 @@
 <?php
 
+	//just in case, show all errors we've got
     error_reporting(E_ALL | E_STRICT);
     ini_set('display_errors', 1);
 
-    spl_autoload_register(function ($class) {
-        require_once __DIR__ . '/../src/' . str_replace('\\', '/', $class) . '.php';
-    });
+    //get the autoloader
+    require_once __DIR__ . '/../vendor/autoload.php';
 
+    //implement some test methods
     class TestClass
     {
         public function testfunc()
@@ -28,6 +29,9 @@
         }
     }
 
+    //get a server instance
     $server = new \JsonRpc\RpcServer();
+    //register our service class
     $server->setClass('TestClass');
+    //handle the incoming payload
     $server->handle();

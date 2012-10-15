@@ -20,9 +20,11 @@ Examples are shown for normal and batched mode
     $url = 'http://' . $_SERVER['SERVER_ADDR'] . dirname($_SERVER['REQUEST_URI']) . '/server.php';
     $client = new JsonRpc\RpcClient($url);
 
+    
     //basic method call in normal mode
     $result = $client->testfunc();
     var_dump($result, $client->getResponseRaw());
+    
     
     //multiple methods in a batch call
     //remember, the server is free to process the requests in any order
@@ -33,5 +35,7 @@ Examples are shown for normal and batched mode
     	->send();
 	var_dump($result, $client->getResponseRaw());
 	
+	
+	//example of a method that throws an exception
 	$result = $client->throwsException('the param');
 	var_dump($result, $client->getResponseRaw());

@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Thrown when incoming json doesn't conform to JSON-RPC 2.0 spec
+ *
+ */
 class InvalidRequestException
 extends Exception
 {

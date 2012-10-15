@@ -22,7 +22,15 @@
  */
 namespace JsonRpc\Transport;
 
+/**
+ * 
+ * Interface describing the Input device
+ *
+ */
 interface Input
 {
-
+	/**
+	 * Receive the payload
+	 */
+	public function getPayload();
 }

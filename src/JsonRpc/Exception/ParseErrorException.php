@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Incoming payload is not wellformed json
+ *
+ */
 class ParseErrorException
 extends Exception
 {

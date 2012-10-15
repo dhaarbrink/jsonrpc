@@ -24,6 +24,11 @@ namespace JsonRpc\Exception;
 
 use JsonRpc\Exception;
 
+/**
+ * 
+ * Thrown when the requested method is not found
+ *
+ */
 class MethodNotFoundException
 extends Exception
 {

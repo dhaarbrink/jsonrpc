@@ -22,11 +22,29 @@
  */
 namespace JsonRpc;
 
+/**
+ * Does the actual work, converts requests into responses
+ * @author dennishaarbrink
+ *
+ */
 class Worker
 {
+	/**
+	 * @var object service object
+	 */
     protected $service;
+    /**
+     * @var array list of server methods
+     */
     protected $functions;
+    /**
+     * @var array generated map of server methods
+     */
     protected $map = array();
+    /**
+     * @param object $service
+     * @param array $functions
+     */
     public function __construct($service, $functions)
     {
         $this->service = $service;
@@ -34,6 +52,10 @@ class Worker
 
         $this->map = $this->createCallMap();
     }
+    /**
+     * Converts request into response
+     * @param unknown_type $message
+     */
     public function handle($message)
     {
         $method = $message->method;
@@ -45,6 +67,10 @@ class Worker
 
         return call_user_func_array($this->map[$method], $params);
     }
+    /**
+     * Looks at the service and functions and populates the call map
+     * @return array
+     */
     protected function createCallMap()
     {
         $map = array();

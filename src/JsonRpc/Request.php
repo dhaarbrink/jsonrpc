@@ -24,21 +24,37 @@ namespace JsonRpc;
 
 use JsonRpc\Exception;
 
+/**
+ * Base request, responsible for decoding and parsing the incoming payload
+ *
+ */
 class Request
 {
+	/**
+	 * @var string holds the payload
+	 */
     protected $payload;
+    /**
+     * @var array holds the decoded messages
+     */
     protected $messages = array();
+    /**
+	 * @var boolean whether we are in batch mode
+     */
     protected $batch = false;
 
     /**
-     * @param $payload
-     * @throws Exception\ParseErrorException
-     *          Exception\InvalidRequestException
+     * @param string $payload
      */
     public function __construct($payload)
     {
         $this->payload = $payload;
     }
+    /**
+     * This method decodes and validates the payload
+     * @throws Exception\ParseErrorException
+     * @throws Exception\InvalidRequestException
+     */
     public function parse()
     {
         if (true !== ($result = $this->decode())) {
@@ -48,14 +64,25 @@ class Request
             throw new Exception\InvalidRequestException();
         }
     }
+    /**
+     * Returns whether we are in batch mode
+     * @return boolean
+     */
     public function isBatch()
     {
         return $this->batch;
     }
+    /**
+     * Returns the incoming messages
+     */
     public function getMessages()
     {
         return $this->messages;
     }
+    /**
+     * Determines if the payload is valid
+     * @return boolean
+     */
     protected function valid()
     {
         $payload = &$this->payload;
@@ -83,6 +110,10 @@ class Request
 
         return true;
     }
+    /**
+     * Decodes the payload
+     * @return boolean|string returns true on success, error message on failure
+     */
     protected function decode()
     {
         if ($this->payload == '') {

@@ -22,10 +22,23 @@
  */
 namespace JsonRpc\Transport;
 
+/**
+ * 
+ * Input implementation reading standard post (the default)
+ *
+ */
 class BasicInput
 implements Input
 {
+	/**
+	 * @var string $payload
+	 */
     protected $payload;
+    /**
+     * Tries to get the payload from either HTTP_RAW_POST_DATA or STDIN
+     * @see JsonRpc\Transport.Input::getPayload()
+     * @return string
+     */
     public function getPayload()
     {
         if (null === $this->payload) {

@@ -22,10 +22,26 @@
  */
 namespace JsonRpc;
 
+/**
+ * Holds the accumulated response
+ *
+ */
 class Response
 {
+	/**
+	 * @var array collection of response messages
+	 */
     protected $messages = array();
+    /**
+     * @var boolean whether we are in batch mode
+     */
     protected $batch = false;
+    /**
+     * Adds a response to the output stream
+     * @param mixed $response
+     * @param integer $message_id
+     * @return void
+     */
     public function add($response, $message_id)
     {
         if ($this->isError($response)) {
@@ -34,18 +50,36 @@ class Response
             $this->messages[] = $this->createResponse($response, $message_id);
         }
     }
+    /**
+     * @return mixed response message(s)
+     */
     public function getResponse()
     {
         return ($this->batch) ? $this->messages : $this->messages[0];
     }
+    /**
+     * Sets whether we are in batch mode
+     * @param boolean $batch
+     */
     public function setBatch($batch)
     {
         $this->batch = $batch;
     }
+    /**
+     * Determines if the given response is an exception
+     * @param mixed $response
+     * @return boolean
+     */
     protected function isError($response)
     {
         return $response instanceof \Exception;
     }
+    /**
+     * Creates a response structure
+     * @param mixed $response
+     * @param integer $message_id
+     * @return array
+     */
     protected function createResponse($response, $message_id)
     {
         $struct = array(
@@ -55,6 +89,12 @@ class Response
         );
         return $struct;
     }
+    /**
+     * Creates an error response
+     * @param \Exception $response
+     * @param integer $message_id
+     * @return array
+     */
     protected function createErrorResponse(\Exception $response, $message_id)
     {
         $struct = array(
