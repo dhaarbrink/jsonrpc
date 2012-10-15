@@ -19,6 +19,13 @@
         {
         	return 42;
         }
+        public function throwsException($param)
+        {
+        	throw new \Exception(sprintf(
+        		"The client passed '%s'",
+        		$param
+        	));
+        }
     }
 
     $server = new \JsonRpc\RpcServer();

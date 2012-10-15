@@ -68,6 +68,9 @@ class RpcClient
     		throw new Exception("Can't use send outside of batch mode");
     	}
     	
+    	//back to normal mode
+    	$this->batch = false;
+    	
         $this->last_request = $this->message;
 
         $opts = array('http' =>
@@ -79,9 +82,9 @@ class RpcClient
         );
 
         $context  = stream_context_create($opts);
-        $result = file_get_contents($this->url, false, $context);
-        $this->response_raw = $result;
-        return json_decode($result);
+        $response = file_get_contents($this->url, false, $context);
+        $this->response_raw = $response;
+        return json_decode($response);
     }
     public function getLastRequest()
     {
