@@ -7,7 +7,7 @@
     //get the autoloader
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    //implement some test methods
+    //define a simple service on which methods are called
     class TestClass
     {
         public function testfunc()

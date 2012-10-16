@@ -20,7 +20,6 @@ Examples are shown for normal and batched mode
     $url = 'http://' . $_SERVER['SERVER_ADDR'] . dirname($_SERVER['REQUEST_URI']) . '/server.php';
     $client = new JsonRpc\RpcClient($url);
 
-    
     //basic method call in normal mode
     $result = $client->testfunc();
     var_dump($result, $client->getResponseRaw());

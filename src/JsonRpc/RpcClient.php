@@ -145,6 +145,13 @@ class RpcClient
      * @param array $arguments
      * @return array
      */
+    protected function parseResponse($response)
+    {
+        if (isset($response->error)) {
+            throw new Exception($response->error->message, $response->error->code);
+        }
+        return $response->result;
+    }
     protected function createMessage($method, $arguments)
     {
         return array(

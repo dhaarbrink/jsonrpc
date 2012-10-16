@@ -133,7 +133,7 @@ class RpcServer
      * @param string $errstr
      * @throws Exception\ServerErrorException
      */
-    public function error_handler($errno, $errstr /*, $errfile, $errline, array $errcontext */)
+    public function error_handler($errno, $errstr /* , $errfile, $errline, array $errcontext */)
     {
         throw new Exception\ServerErrorException($errstr, $errno);
     }
