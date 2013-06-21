@@ -75,6 +75,10 @@ class RpcClient
         }
         
 		if (!$this->batch) {
+			/**
+			 * @TODO switching batch mode like this could introduce bugs -> what if batch mode was on?
+			 * fix: save and restore original value
+			 */ 
 			//dirty trick to use send outside of batch mode
 			$this->batch = true;
 			$result = $this->send();
